@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreetsForm - интернет-магазин кроссовок</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            background-color: #000;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #ccc;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 25px;
+            position: relative;
+            align-items: center;
+        }
+
+        .header-actions i {
+            font-size: 22px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background-color: white;
+            color: black;
+            font-size: 11px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Секции */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 120px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 24px;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: #aaa;
+        }
+
+        .catalog-section, .about-section, .contacts-section, .cart-section, .checkout-section, .profile-section, .success-section {
+            display: none;
+            padding: 60px 0;
+        }
+
+        .catalog-title, .about-title, .contacts-title, .cart-title, .checkout-title, .profile-title, .success-title {
+            font-size: 48px;
+            margin-bottom: 50px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* О нас */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .about-text p {
+            margin-bottom: 25px;
+        }
+
+        .about-text strong {
+            color: #fff;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Контакты */
+        .contacts-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contacts-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .contact-item i {
+            font-size: 28px;
+            width: 40px;
+        }
+
+        .contact-item a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 32px;
+        }
+
+        .contacts-map {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .contacts-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Корзина */
+        .cart-items {
+            margin-bottom: 40px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 2;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            color: #aaa;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: 1px solid #333;
+            color: white;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .quantity-btn:hover {
+            border-color: white;
+        }
+
+        .item-quantity {
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .cart-total {
+            text-align: right;
+            padding: 20px;
+            border-top: 2px solid #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px;
+            color: #aaa;
+        }
+
+        /* Оформление заказа */
+        .checkout-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: white;
+        }
+
+        .payment-methods, .delivery-methods {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .payment-method, .delivery-method {
+            flex: 1;
+            padding: 15px;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .payment-method.selected, .delivery-method.selected {
+            border-color: white;
+            background-color: #222;
+        }
+
+        .card-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #111;
+            border-radius: 10px;
+        }
+
+        .sbp-banks {
+            display: none;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .sbp-bank {
+            padding: 10px 20px;
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sbp-bank.selected {
+            border-color: white;
+            background-color: #222;
+        }
+
+        /* Профиль */
+        .profile-orders {
+            margin-top: 40px;
+        }
+
+        .order-item {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-status {
+            color: #4caf50;
+        }
+
+        .order-status.processing {
+            color: #ff9800;
+        }
+
+        .order-status.completed {
+            color: #4caf50;
+        }
+
+        .received-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .received-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Карточки товаров */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background-color: #111;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid #333;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 250px;
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-brand {
+            font-size: 14px;
+            color: #aaa;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .product-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .btn-small {
+            width: auto;
+            padding: 10px 20px;
+        }
+
+        /* Модальное окно */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: #111;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid #333;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 30px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            font-size: 30px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close-modal:hover {
+            color: white;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 30px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 350px;
+            background-color: #222;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-description {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .size-option {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .size-option:hover, .size-option.selected {
+            border-color: white;
+            background-color: #222;
+        }
+
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #777;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 60px; }
+            .hero p { font-size: 18px; }
+            .modal-body { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; }
+            nav ul { gap: 20px; }
+            .about-content { grid-template-columns: 1fr; }
+            .about-image { height: 300px; }
+            .contacts-content { grid-template-columns: 1fr; }
+            .contacts-map { height: 300px; }
+            .cart-item { flex-direction: column; text-align: center; }
+            .cart-item-info { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">StreetsForm</a>
+            <nav>
+                <ul>
+                    <li><a id="home-link">Главная</a></li>
+                    <li><a id="catalog-link">Каталог</a></li>
+                    <li><a id="about-link">О нас</a></li>
+                    <li><a id="contacts-link">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-user" id="profile-icon"></i>
+                <div style="position: relative;">
+                    <i class="fas fa-shopping-bag" id="cart-icon"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Главный экран -->
+        <section class="hero" id="hero-section">
+            <div class="container">
+                <h1>StreetsForm</h1>
+                <p>Интернет-магазин кроссовок, где уличный стиль встречается с безупречной формой.</p>
+                <a class="btn" id="view-catalog-btn">Смотреть коллекцию</a>
+            </div>
+        </section>
+
+        <!-- Каталог -->
+        <section class="catalog-section" id="catalog-section">
+            <div class="container">
+                <h2 class="catalog-title">Коллекция кроссовок</h2>
+                <div class="product-grid" id="product-grid"></div>
+            </div>
+        </section>
+
+        <!-- О нас -->
+        <section class="about-section" id="about-section">
+            <div class="container">
+                <h2 class="about-title">О нас</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Бренд <strong>StreetsForm</strong> родился на пересечении двух миров: энергии городских улиц и стремления к идеальной форме.</p>
+                        <p>Мы заметили, что настоящий стиль — это не просто громкие логотипы, а гармония между динамикой мегаполиса и чистотой силуэта.</p>
+                        <p>Название <strong>StreetsForm</strong> отражает нашу философию: <strong>Streets</strong> — это уличная культура, движение, свобода; <strong>Form</strong> — это безупречная геометрия, классика, совершенство.</p>
+                        <p>Мы выбираем кроссовки, которые становятся продолжением характера их владельца.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="images/sneakers on concrete aesthetic black and white.jpg" alt="Уличный стиль StreetsForm">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section class="contacts-section" id="contacts-section">
+            <div class="container">
+                <h2 class="contacts-title">Контакты</h2>
+                <div class="contacts-content">
+                    <div class="contacts-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@streetsform.ru">info@streetsform.ru</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+79999666777">+7 (999) 966-67-77</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Ежедневно: 10:00 – 21:00</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>г. Москва, ул. Арбат, д. 10</span>
+                        </div>
+                        <div class="social-icons">
+                            <a href="https://instagram.com/streetsform" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://t.me/streetsform" target="_blank"><i class="fab fa-telegram"></i></a>
+                            <a href="https://wa.me/79999666777" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                    <div class="contacts-map">
+                        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.590507%2C55.752358&z=17&pt=37.590507%2C55.752358&l=map&ol=geo&ouri=ymapsbm1://geo?ll=37.590507%2C55.752358" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Корзина -->
+        <section class="cart-section" id="cart-section">
+            <div class="container">
+                <h2 class="cart-title">Корзина</h2>
+                <div id="cart-content"></div>
+                <div id="cart-total" class="cart-total"></div>
+                <div id="cart-actions" style="text-align: center; margin-top: 30px;"></div>
+            </div>
+        </section>
+
+        <!-- Оформление заказа -->
+        <section class="checkout-section" id="checkout-section">
+            <div class="container">
+                <h2 class="checkout-title">Оформление заказа</h2>
+                <div class="checkout-form">
+                    <div class="form-group">
+                        <label>Ваше имя</label>
+                        <input type="text" id="customer-name" placeholder="Иван Иванов">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="tel" id="customer-phone" placeholder="+7 (999) 123-45-67">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="customer-email" placeholder="info@example.com">
+                    </div>
+                    
+                    <h3>Способ оплаты</h3>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-payment="card">💳 Банковская карта</div>
+                        <div class="payment-method" data-payment="sbp">🏦 СБП (Система быстрых платежей)</div>
+                        <div class="payment-method" data-payment="cash">💵 Наличные при получении</div>
+                    </div>
+                    
+                    <div id="card-details" class="card-details">
+                        <div class="form-group">
+                            <label>Номер карты</label>
+                            <input type="text" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-group">
+                            <label>Срок действия</label>
+                            <input type="text" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" placeholder="123">
+                        </div>
+                    </div>
+                    
+                    <div id="sbp-banks" class="sbp-banks">
+                        <div class="sbp-bank" data-bank="sber">🏦 Сбербанк</div>
+                        <div class="sbp-bank" data-bank="tbank">💳 Т-Банк</div>
+                        <div class="sbp-bank" data-bank="alfa">🔵 Альфа-Банк</div>
+                        <div class="sbp-bank" data-bank="vtb">🔴 ВТБ</div>
+                        <div class="sbp-bank" data-bank="gazprombank">🟢 Газпромбанк</div>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Способ доставки</h3>
+                    <div class="delivery-methods">
+                        <div class="delivery-method" data-delivery="courier">🚚 Доставка курьером</div>
+                        <div class="delivery-method" data-delivery="pickup">🏪 Самовывоз (м. Арбатская)</div>
+                    </div>
+                    
+                    <div id="delivery-address" class="form-group" style="display: none;">
+                        <label>Адрес доставки</label>
+                        <input type="text" id="address-input" placeholder="г. Москва, ул., д., кв.">
+                    </div>
+                    
+                    <button class="btn" id="submit-order-btn" style="margin-top: 30px;">Оформить заказ</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Профиль / Мои заказы -->
+        <section class="profile-section" id="profile-section">
+            <div class="container">
+                <h2 class="profile-title">Мои заказы</h2>
+                <div id="profile-orders" class="profile-orders"></div>
+            </div>
+        </section>
+
+        <!-- Успешный заказ -->
+        <section class="success-section" id="success-section">
+            <div class="container">
+                <h2 class="success-title">✨ Спасибо за заказ! ✨</h2>
+                <div style="text-align: center; padding: 60px;">
+                    <i class="fas fa-check-circle" style="font-size: 80px; color: #4caf50; margin-bottom: 30px;"></i>
+                    <p style="font-size: 24px; margin-bottom: 20px;">Ваш заказ успешно оформлен!</p>
+                    <p style="font-size: 18px; color: #aaa; margin-bottom: 40px;">Номер заказа: <strong id="order-number"></strong></p>
+                    <p style="font-size: 18px; color: #aaa; margin-bottom: 40px;">Статус: <strong style="color: #ff9800;">В обработке</strong></p>
+                    <button class="btn btn-small" id="back-to-catalog-btn">Вернуться в каталог</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно товара -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Название</h2>
+                <div class="close-modal" id="close-modal-btn">&times;</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="" alt="" id="modal-img">
+                </div>
+                <div class="modal-details">
+                    <h3>Описание</h3>
+                    <p class="modal-description" id="modal-desc"></p>
+                    <div class="size-selection">
+                        <h4>Выберите размер:</h4>
+                        <div class="size-options" id="size-options">
+                            <div class="size-option">38</div>
+                            <div class="size-option">39</div>
+                            <div class="size-option">40</div>
+                            <div class="size-option">41</div>
+                            <div class="size-option">42</div>
+                            <div class="size-option">43</div>
+                            <div class="size-option">44</div>
+                            <div class="size-option">45</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="add-to-cart-modal">Добавить в корзину</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 StreetsForm. Учебный проект КАИТ №20. Муким, группа КСК-134.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== ВСЕ ТОВАРЫ (6 старых + 8 новых = 14) ==========
+        const products = [
+            // Старые (6 шт)
+            { id: 1, name: 'Dunk Low "Smoke Grey"', brand: 'Nike', price: 14999, desc: 'Элегантные кроссовки в серо-белой гамме. Верх из премиальной кожи, классический силуэт 80-х годов.', img: 'images/загруженное.jpg' },
+            { id: 2, name: 'Air Force 1 \'07 "White"', brand: 'Nike', price: 11999, desc: 'Легендарные Air Force 1 в белом цвете. Классика, которая никогда не выходит из моды.', img: 'images/Air Force.jpg' },
+            { id: 3, name: 'Dunk Low "Panda"', brand: 'Nike', price: 13999, desc: 'Черно-белые Dunk Low — самые популярные кроссовки последних лет.', img: 'images/Nike Dunk Low Panda.jpg' },
+            { id: 4, name: 'Air Max 90 "Infrared"', brand: 'Nike', price: 16999, desc: 'Культовые Air Max 90 в легендарной расцветке Infrared.', img: 'images/Nike Air Max 90 Infrared.jpg' },
+            { id: 5, name: 'Jordan 1 Retro "Chicago"', brand: 'Air Jordan', price: 24999, desc: 'Священный грааль среди коллекционеров. Красный, белый и черный — оригинальные цвета Майкла Джордана.', img: 'images/Air Jordan 1 Chicago.jpg' },
+            { id: 6, name: 'Air Max 97 "Silver Bullet"', brand: 'Nike', price: 18999, desc: 'Серебряные пули — дизайн, вдохновленный японскими пулевыми поездами.', img: 'images/Nike Air Max 97 Silver Bullet.jpg' },
+            
+            // Новые (8 шт)
+            { id: 7, name: 'Dunk Low "Kentucky"', brand: 'Nike', price: 15999, desc: 'Классическая сине-белая расцветка университетского стиля. Яркий и запоминающийся дизайн.', img: 'images/Nike Dunk Low Kentucky.jpg' },
+            { id: 8, name: 'Dunk Low "White"', brand: 'Nike', price: 13999, desc: 'Минималистичные белые кроссовки. Чистота, элегантность и универсальность в каждой детали.', img: 'images/Nike Dunk Low White.jpg' },
+            { id: 9, name: 'Jordan "Brown"', brand: 'Air Jordan', price: 18999, desc: 'Стильные коричневые кроссовки. Теплый оттенок, премиальные материалы, уличный шарм.', img: 'images/Brown color JORDAN.jpg' },
+            { id: 10, name: 'J1 Low "Medium Olive" Travis', brand: 'Air Jordan', price: 32999, desc: 'Коллаборация с Travis Scott. Оливковый верх, ретро-силуэт, культовый дизайн.', img: 'images/J1 Low Medium Olive Travis.jpg' },
+            { id: 11, name: '550 "Grey White"', brand: 'New Balance', price: 12999, desc: 'Ретро-баскетбольный силуэт. Серо-белая гамма, комфорт и узнаваемый стиль.', img: 'images/new balance 550 grey white.jpg' },
+            { id: 12, name: '990v3 "Grey"', brand: 'New Balance', price: 19999, desc: 'Легендарная модель Made in USA. Серый цвет, премиальная замша, максимальный комфорт.', img: 'images/New Balance 990v3 MiUSA Version 3 Grey Sneakers.jpg' },
+            { id: 13, name: 'Samba LT "Black"', brand: 'Adidas', price: 9999, desc: 'Вечная классика Adidas Samba в черном цвете. Тонкий силуэт, замшевый носок.', img: 'images/Adidas Black Samba LT.jpg' },
+            { id: 14, name: 'Yeezy 350 V2', brand: 'Adidas', price: 27999, desc: 'Культовые Yeezy от Kanye West. Ультрабуст подошва, футуристичный дизайн.', img: 'images/Adidas Yeezy 350 V2.jpg' }
+        ];
+
+        // Корзина
+        let cart = JSON.parse(localStorage.getItem('streetsform_cart')) || [];
+        
+        // Заказы
+        let orders = JSON.parse(localStorage.getItem('streetsform_orders')) || [];
+        
+        // Выбранный товар в модалке
+        let currentProduct = null;
+        let selectedSize = null;
+
+        // ========== ФУНКЦИИ КОРЗИНЫ ==========
+        function saveCart() {
+            localStorage.setItem('streetsform_cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const countEl = document.getElementById('cart-count');
+            if (countEl) countEl.textContent = count;
+        }
+
+        function addToCart(product, size) {
+            if (!size) {
+                alert('Выберите размер!');
+                return false;
+            }
+            
+            const existing = cart.find(item => item.id === product.id && item.size === size);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    brand: product.brand,
+                    price: product.price,
+                    size: size,
+                    quantity: 1,
+                    img: product.img
+                });
+            }
+            saveCart();
+            alert(`✅ Товар добавлен в корзину!\n${product.name} (размер ${size})`);
+            return true;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            renderCart();
+        }
+
+        function updateQuantity(index, delta) {
+            const newQty = cart[index].quantity + delta;
+            if (newQty >= 1) {
+                cart[index].quantity = newQty;
+                saveCart();
+                renderCart();
+            }
+        }
+
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function renderCart() {
+            const cartContent = document.getElementById('cart-content');
+            const cartTotalDiv = document.getElementById('cart-total');
+            const cartActions = document.getElementById('cart-actions');
+            
+            if (!cartContent) return;
+            
+            if (cart.length === 0) {
+                cartContent.innerHTML = '<div class="empty-cart"><i class="fas fa-shopping-bag" style="font-size: 50px; margin-bottom: 20px;"></i><p>Корзина пуста</p><button class="btn btn-small" id="continue-shopping-btn">Продолжить покупки</button></div>';
+                cartTotalDiv.innerHTML = '';
+                cartActions.innerHTML = '';
+                document.getElementById('continue-shopping-btn')?.addEventListener('click', () => showCatalog());
+                return;
+            }
+            
+            let html = '<div class="cart-items">';
+            cart.forEach((item, index) => {
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-image"><img src="${item.img}" onerror="this.src='https://via.placeholder.com/60'"></div>
+                            <div class="cart-item-details">
+                                <div class="cart-item-name">${item.brand} ${item.name}</div>
+                                <div class="cart-item-price">${item.price.toLocaleString()} ₽</div>
+                                <div style="font-size: 14px; color: #aaa;">Размер: ${item.size}</div>
+                            </div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <button class="remove-item" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div style="min-width: 100px; text-align: right;">${(item.price * item.quantity).toLocaleString()} ₽</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            cartContent.innerHTML = html;
+            
+            cartTotalDiv.innerHTML = `Итого: ${getCartTotal().toLocaleString()} ₽`;
+            cartActions.innerHTML = '<button class="btn" id="checkout-btn">Оформить заказ</button><button class="btn btn-small" id="clear-cart-btn" style="margin-left: 15px; background-color: #333;">Очистить корзину</button>';
+            
+            document.getElementById('checkout-btn')?.addEventListener('click', () => {
+                if (cart.length > 0) showCheckout();
+            });
+            document.getElementById('clear-cart-btn')?.addEventListener('click', () => {
+                if (confirm('Очистить всю корзину?')) {
+                    cart = [];
+                    saveCart();
+                    renderCart();
+                }
+            });
+        }
+
+        // ========== ФУНКЦИЯ ПОДТВЕРЖДЕНИЯ ПОЛУЧЕНИЯ ЗАКАЗА ==========
+        function markOrderReceived(orderId) {
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            if (orderIndex !== -1 && orders[orderIndex].status !== 'Получен') {
+                orders[orderIndex].status = 'Получен ✅';
+                localStorage.setItem('streetsform_orders', JSON.stringify(orders));
+                renderProfile();
+                alert('🎉 Заказ отмечен как полученный! Спасибо за покупку!');
+            }
+        }
+
+        // ========== ОФОРМЛЕНИЕ ЗАКАЗА ==========
+        let selectedPayment = 'card';
+        let selectedDelivery = 'courier';
+        let selectedBank = null;
+
+        function showCheckout() {
+            hideAllSections();
+            document.getElementById('checkout-section').style.display = 'block';
+            window.scrollTo({ top: 0 });
+        }
+
+        function generateOrderNumber() {
+            return 'SF' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('customer-name')?.value;
+            const phone = document.getElementById('customer-phone')?.value;
+            const email = document.getElementById('customer-email')?.value;
+            
+            if (!name || !phone) {
+                alert('Заполните имя и телефон!');
+                return;
+            }
+            
+            if (cart.length === 0) {
+                alert('Корзина пуста!');
+                showCatalog();
+                return;
+            }
+            
+            let paymentInfo = '';
+            if (selectedPayment === 'card') {
+                paymentInfo = 'Оплата картой';
+            } else if (selectedPayment === 'sbp') {
+                paymentInfo = `Оплата через СБП (${selectedBank || 'банк не выбран'})`;
+            } else {
+                paymentInfo = 'Наличные при получении';
+            }
+            
+            let deliveryInfo = '';
+            let address = '';
+            if (selectedDelivery === 'courier') {
+                address = document.getElementById('address-input')?.value || 'Адрес не указан';
+                deliveryInfo = `Доставка курьером: ${address}`;
+            } else {
+                deliveryInfo = 'Самовывоз: м. Арбатская, ул. Арбат, д. 10';
+            }
+            
+            const order = {
+                id: generateOrderNumber(),
+                date: new Date().toLocaleString(),
+                customer: { name, phone, email },
+                items: [...cart],
+                total: getCartTotal(),
+                payment: paymentInfo,
+                delivery: deliveryInfo,
+                status: 'В обработке'
+            };
+            
+            orders.unshift(order);
+            localStorage.setItem('streetsform_orders', JSON.stringify(orders));
+            
+            cart = [];
+            saveCart();
+            
+            document.getElementById('order-number').textContent = order.id;
+            hideAllSections();
+            document.getElementById('success-section').style.display = 'block';
+            window.scrollTo({ top: 0 });
+        }
+
+        // ========== ПРОФИЛЬ (МОИ ЗАКАЗЫ) ==========
+        function renderProfile() {
+            const container = document.getElementById('profile-orders');
+            if (!container) return;
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div class="empty-cart"><i class="fas fa-box" style="font-size: 50px; margin-bottom: 20px;"></i><p>У вас пока нет заказов</p><button class="btn btn-small" id="profile-shop-btn">Перейти в каталог</button></div>';
+                document.getElementById('profile-shop-btn')?.addEventListener('click', () => showCatalog());
+                return;
+            }
+            
+            let html = '';
+            orders.forEach(order => {
+                const isCompleted = order.status === 'Получен ✅';
+                html += `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <span><strong>Заказ #${order.id}</strong></span>
+                            <span>${order.date}</span>
+                        </div>
+                        <div class="order-header">
+                            <span>Сумма: <strong>${order.total.toLocaleString()} ₽</strong></span>
+                            <span class="order-status ${isCompleted ? 'completed' : 'processing'}">${order.status}</span>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 14px; color: #aaa;">
+                            <div>Доставка: ${order.delivery}</div>
+                            <div>Оплата: ${order.payment}</div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            ${order.items.map(item => `<div style="padding: 5px 0;">${item.brand} ${item.name} (${item.size}) x${item.quantity} — ${(item.price * item.quantity).toLocaleString()} ₽</div>`).join('')}
+                        </div>
+                        ${!isCompleted ? `<button class="received-btn" onclick="markOrderReceived('${order.id}')">✅ Получил заказ</button>` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ========== НАВИГАЦИЯ ==========
+        const sections = ['hero-section', 'catalog-section', 'about-section', 'contacts-section', 'cart-section', 'checkout-section', 'profile-section', 'success-section'];
+        
+        function hideAllSections() {
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+
+        function showHome() {
+            hideAllSections();
+            document.getElementById('hero-section').style.display = 'block';
+            window.scrollTo({ top: 0 });
+        }
+
+        function showCatalog() {
+            hideAllSections();
+            document.getElementById('catalog-section').style.display = 'block';
+            renderProducts();
+            window.scrollTo({ top: 0 });
+        }
+
+        function showAbout() {
+            hideAllSections();
+            document.getElementById('about-section').style.display = 'block';
+            window.scrollTo({ top: 0 });
+        }
+
+        function showContacts() {
+            hideAllSections();
+            document.getElementById('contacts-section').style.display = 'block';
+            window.scrollTo({ top: 0 });
+        }
+
+        function showCart() {
+            hideAllSections();
+            document.getElementById('cart-section').style.display = 'block';
+            renderCart();
+            window.scrollTo({ top: 0 });
+        }
+
+        function showProfile() {
+            hideAllSections();
+            document.getElementById('profile-section').style.display = 'block';
+            renderProfile();
+            window.scrollTo({ top: 0 });
+        }
+
+        // ========== ОТРИСОВКА ТОВАРОВ ==========
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-id', product.id);
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.img}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x250?text=Фото+скоро'">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-brand">${product.brand}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">${product.price.toLocaleString()} ₽</div>
+                        <button class="btn view-details-btn">Подробнее</button>
+                    </div>
+                `;
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('view-details-btn')) {
+                        openModal(product.id);
+                    }
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        // ========== МОДАЛЬНОЕ ОКНО ==========
+        const modal = document.getElementById('product-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImg = document.getElementById('modal-img');
+        const modalDesc = document.getElementById('modal-desc');
+        const addToCartBtn = document.getElementById('add-to-cart-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const sizeOptionsDiv = document.getElementById('size-options');
+
+        function openModal(productId) {
+            currentProduct = products.find(p => p.id === productId);
+            if (currentProduct) {
+                modalTitle.textContent = `${currentProduct.brand} ${currentProduct.name}`;
+                modalDesc.textContent = currentProduct.desc;
+                modalImg.src = currentProduct.img;
+                modalImg.alt = currentProduct.name;
+                
+                selectedSize = null;
+                document.querySelectorAll('#size-options .size-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ========== ИНИЦИАЛИЗАЦИЯ ==========
+        function init() {
+            renderProducts();
+            updateCartCount();
+            
+            // Навигация
+            document.getElementById('home-link')?.addEventListener('click', showCatalog);
+            document.getElementById('catalog-link')?.addEventListener('click', showCatalog);
+            document.getElementById('about-link')?.addEventListener('click', showAbout);
+            document.getElementById('contacts-link')?.addEventListener('click', showContacts);
+            document.getElementById('cart-icon')?.addEventListener('click', showCart);
+            document.getElementById('profile-icon')?.addEventListener('click', showProfile);
+            document.getElementById('view-catalog-btn')?.addEventListener('click', showCatalog);
+            document.getElementById('back-to-catalog-btn')?.addEventListener('click', showCatalog);
+            
+            // Модальное окно
+            closeModalBtn?.addEventListener('click', closeModal);
+            modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+            
+            // Выбор размера
+            sizeOptionsDiv?.addEventListener('click', (e) => {
+                if (e.target.classList.contains('size-option')) {
+                    document.querySelectorAll('#size-options .size-option').forEach(opt => opt.classList.remove('selected'));
+                    e.target.classList.add('selected');
+                    selectedSize = e.target.textContent;
+                }
+            });
+            
+            // Добавление в корзину из модалки
+            addToCartBtn?.addEventListener('click', () => {
+                if (currentProduct && addToCart(currentProduct, selectedSize)) {
+                    closeModal();
+                }
+            });
+            
+            // Оформление заказа - способы оплаты
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', () => {
+                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                    method.classList.add('selected');
+                    selectedPayment = method.getAttribute('data-payment');
+                    
+                    const cardDetails = document.getElementById('card-details');
+                    const sbpBanks = document.getElementById('sbp-banks');
+                    if (cardDetails) cardDetails.style.display = selectedPayment === 'card' ? 'block' : 'none';
+                    if (sbpBanks) sbpBanks.style.display = selectedPayment === 'sbp' ? 'flex' : 'none';
+                });
+            });
+            
+            // Выбор банка для СБП
+            document.querySelectorAll('.sbp-bank').forEach(bank => {
+                bank.addEventListener('click', () => {
+                    document.querySelectorAll('.sbp-bank').forEach(b => b.classList.remove('selected'));
+                    bank.classList.add('selected');
+                    selectedBank = bank.textContent.trim();
+                });
+            });
+            
+            // Способы доставки
+            document.querySelectorAll('.delivery-method').forEach(method => {
+                method.addEventListener('click', () => {
+                    document.querySelectorAll('.delivery-method').forEach(m => m.classList.remove('selected'));
+                    method.classList.add('selected');
+                    selectedDelivery = method.getAttribute('data-delivery');
+                    const addressBlock = document.getElementById('delivery-address');
+                    if (addressBlock) addressBlock.style.display = selectedDelivery === 'courier' ? 'block' : 'none';
+                });
+            });
+            
+            // Оформление заказа
+            document.getElementById('submit-order-btn')?.addEventListener('click', submitOrder);
+            
+            // Показываем главную
+            showHome();
+        }
+        
+        // Делаем функции глобальными для onclick
+        window.updateQuantity = updateQuantity;
+        window.removeFromCart = removeFromCart;
+        window.markOrderReceived = markOrderReceived;
+        
+        init();
+    </script>
+</body>
+</html>
